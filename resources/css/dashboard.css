@@ -1,0 +1,119 @@
+ body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .background-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            
+            background: 
+                url('/resources/img/login.jpeg') no-repeat center center fixed,
+                linear-gradient(to top right, #e0f2f7, #a8dadc);
+            background-size: cover;
+            filter: brightness(0.9) saturate(1.1);
+        }
+
+        .dashboard-overlay {
+            position: relative;
+            z-index: 2;
+            width: 80%;
+            max-width: 500px;
+            padding: 30px 40px;
+            
+            background: rgba(255, 255, 255, 0.4);
+            background-image: linear-gradient(to bottom right, rgba(200, 220, 255, 0.2), rgba(255, 255, 255, 0.6));
+            
+            backdrop-filter: blur(8px) brightness(1.05);
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-container {
+            margin-bottom: 30px;
+            padding: 10px 30px;
+            border-radius: 10px;
+            
+            background: linear-gradient(to bottom, #74aef1, #3f87f5);
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .logo-text {
+            color: white;
+            font-size: 1.8em;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-menu {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .menu-button {
+            width: 110%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 500;
+            color: #0056b3;
+            
+            background: linear-gradient(to bottom, #fefefe, #f0f8ff);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+            transition: linear 0.2s, box-shadow 0.2s;
+            border: 1px solid rgba(200, 200, 200, 0.3);
+        }
+
+        .menu-button:hover {
+            background: linear-gradient(to top, #e0efff, #ffffff);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .logout-container {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            padding-top: 30px;
+        }
+
+        .logout-button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            color: #0056b3;
+            background: linear-gradient(to bottom, #fefefe, #f0f8ff);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: linear 0.2s;
+            border: 1px solid rgba(200, 200, 200, 0.3);
+        }
+
+        .logout-button:hover {
+            background: #e0efff;
+        }
+   
