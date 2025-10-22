@@ -1,117 +1,249 @@
+ body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: #333;
+        }
 
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      color: #333;
-      background: linear-gradient(to bottom right, rgba(10,17,40,0.9), rgba(0,102,204,0.8)), 
-              url('/resources/img/login.jpeg') center/cover no-repeat;
-  background-attachment: fixed;
-}
-    
+        .background-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; 
+            
+            background: 
+                url('/resources/img/login.jpeg') no-repeat left bottom / auto 70%, 
+                linear-gradient(to top right, #3f87f5 30%, #004d99 80%);
+            background-color: #007bff;
+            filter: brightness(0.9) saturate(1.1);
+        }
 
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 15px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
-      padding: 20px;
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 20px;
-    }
+        .container { 
+            position: relative;
+            z-index: 2; 
+            width: 95%; 
+            height: 95%;
+            max-width: 1400px;
+            max-height: 800px;
+            
+            background: rgba(255, 255, 255, 0.4);
+            background-image: linear-gradient(to bottom right, rgba(200, 220, 255, 0.2), rgba(255, 255, 255, 0.6));
+            
+            backdrop-filter: blur(8px) brightness(1.05);
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            
+            display: flex;
+            flex-direction: column;
+        }
 
-    .header {
-      grid-column: span 2;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: linear-gradient(to right, #1a2a51, #3b82f6);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 10px;
-    }
+        .header { 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+            background: linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,0.5));
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: rgb(144, 177, 225);
-      border-radius: 10px;
-      overflow: hidden;
-    }
+        .header h2 {
+            padding: 8px 25px;
+            border-radius: 8px;
+            background: linear-gradient(to bottom, #74aef1, #3f87f5);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: white;
+            font-size: 1.3em;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+            margin: 0;
+        }
 
-    th{
-      text-align: center;
-      padding: 10px;
-      border-bottom: 1px solid #9a2c2c;
-      
-    }
-     td {
-      text-align: center;
-      padding: 5px;
-      border-bottom: 1px solid #e9e9ec;
-    }
+        .header > div { 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9em;
+            color: #444;
+            font-weight: 600;
+        }
+        .header input, .header label {
+            font-weight: 600;
+        }
+        .header input {
+            padding: 6px 10px;
+            border-radius: 5px;
+            border: 1px solid #cce;
+            background-color: #f8f8ff;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            font-size: 0.9em;
+            color: #333;
+        }
 
-    th {
-      background: #05285f;
-      font-weight: 700;
-        color: white;
-    }
+        .content-wrapper {
+            display: flex;
+            flex-grow: 1; 
+            padding: 20px 25px;
+            gap: 25px; 
+            overflow: hidden;
+        }
 
-    .form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      background: linear-gradient(to bottom right, rgba(255,255,255,0.9), rgba(230,230,255,0.9));
-      border-radius: 10px;
-      padding: 20px;
-    }
+        .table-section { 
+            flex: 3;
+            background: rgba(255, 255, 255, 0.5); 
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+        }
 
-    .form input, .form select {
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 0.9rem;
-    }
+        .table-section .table-container {
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85em;
+            text-align: left;
+            background-color: rgba(255, 255, 255, 0.9);
+            table-layout: fixed;
+        }
 
-    .buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 10px;
-    }
+        table th, table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #e0e0e0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
-    .btn {
-      flex: 1;
-      margin: 0 5px;
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+        table thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: linear-gradient(to bottom, #d6eaff, #b8daff);
+            color: #333;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        table tbody tr.selected-row {
+            background-color: #aed6f1;
+            font-weight: 600;
+            box-shadow: 0 0 5px rgba(0, 50, 100, 0.3);
+        }
 
-    .btn-add { background: #007bff; }
-    .btn-add:hover { background: #0056b3; }
+        table tbody tr:hover {
+            background-color: #e6f2ff;
+            cursor: pointer;
+        }
 
-    .btn-update { background: #28a745; }
-    .btn-update:hover { background: #1e7e34; }
+        .form { 
+            flex: 2;
+            background: rgba(255, 255, 255, 0.5); 
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
 
-    .btn-delete { background: #dc3545; }
-    .btn-delete:hover { background: #a71d2a; }
+        .form select, .form input {
+            width: 100%;
+            padding: 8px 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #cce;
+            background-color: #f8f8ff;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            font-size: 0.9em;
+            color: #333;
+            box-sizing: border-box;
+        }
+        .form input[type="date"] {
+            border: 1px solid #aaddff;
+            background-color: #eef8ff;
+        }
 
-    .btn-reset { background: #6c757d; }
-    .btn-reset:hover { background: #565e64; }
+        .buttons { 
+            display: flex;
+            flex-direction: row;
+            gap: 10px; 
+            margin-top: 40px; 
+            align-items: center;
+            justify-content: flex-start;
+        }
 
-    .footer {
-      grid-column: span 2;
-      text-align: right;
-      margin-top: 10px;
-      color: #1a2a51;
-      font-weight: bold;
-    }
+        .btn { 
+            width: auto;
+            padding: 8px 18px;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-add { background: linear-gradient(to bottom, #7ce07c, #4CAF50); }
+        .btn-update { background: linear-gradient(to bottom, #7cbcf1, #2196F3); }
+        .btn-delete { background: linear-gradient(to bottom, #ff7b7b, #f44336); }
+        .btn-reset { background: linear-gradient(to bottom, #ffdd7c, #ffc107); }
+
+        .footer { 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.7);
+            background: linear-gradient(to top, rgba(255,255,255,0.7), rgba(255,255,255,0.5));
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+        
+        .btn-back {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            color: #0056b3;
+            background: linear-gradient(to bottom, #fefefe, #e0f0ff);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(200, 200, 200, 0.3);
+        }
+
+        .user-info {
+            font-size: 0.9em;
+            color: #0056b3;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }

@@ -8,119 +8,263 @@
   
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h2>Customer Management</h2>
-      <div>
-        <label>Customer ID:</label>
-        <input type="text" id="customerId" placeholder="Auto Generated" readonly />
-      </div>
-    </div>
+    <div class="background-container"></div>
+    <div class="container">
+        
+        <div class="header">
+            <h2>Customer Management</h2>
+            <div>
+                <label>Customer ID:</label>
+                <input type="text" id="customerId" placeholder="Auto Generated" readonly />
+            </div>
+        </div>
 
-    <div class="table-section">
-      <table id="customerTable">
-        <thead>
-          <tr>
-            <th>Cust ID</th>
-            <th>Title</th>
-            <th>Name</th>
-            <th>Birthday</th>
-            <th>Salary</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>Province</th>
-            <th>Postal Code</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
+        <div class="content-wrapper">
+            <div class="table-section">
+                <div class="table-container">
+                    <table id="customerTable">
+                        <thead>
+                            <tr>
+                                <th>Cust ID</th>
+                                <th>Title</th>
+                                <th>Name</th>
+                                <th>Birthday</th>
+                                <th>Salary</th>
+                                <th>Address</th>
+                                <th>City</th>
+                                <th>Province</th>
+                                <th>Postal Code</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
 
-    <div class="form">
-      <select id="title">
-        <option value="">Select Title</option>
-        <option value="Mr">Mr</option>
-        <option value="Miss">Miss</option>
-        <option value="Mrs">Mrs</option>
-        <option value="Dr">Dr</option>
-      </select>
-      <input type="text" id="name" placeholder="Full Name" />
-      <input type="date" id="birthday" />
-      <input type="number" id="salary" placeholder="Salary" />
-      <input type="text" id="address" placeholder="Address" />
-      <input type="text" id="city" placeholder="City" />
-      <input type="text" id="province" placeholder="Province" />
-      <input type="text" id="postalCode" placeholder="Postal Code" />
+            <div class="form">
+                <select id="title">
+                    <option value="">Select Title</option>
+                    <option value="Mr">Mr</option>
+                    <option value="Miss">Miss</option>
+                    <option value="Mrs">Mrs</option>
+                    <option value="Dr">Dr</option>
+                </select>
+                <input type="text" id="name" placeholder="Full Name" />
+                <input type="date" id="birthday" />
+                <input type="number" id="salary" placeholder="Salary" />
+                <input type="text" id="address" placeholder="Address" />
+                <input type="text" id="city" placeholder="City" />
+                <input type="text" id="province" placeholder="Province" />
+                <input type="text" id="postalCode" placeholder="Postal Code" />
 
-      <div class="buttons">
-        <button class="btn btn-add" onclick="addCustomer()">Add</button>
-        <button class="btn btn-update" onclick="updateCustomer()">Update</button>
-        <button class="btn btn-delete" onclick="deleteCustomer()">Delete</button>
-        <button class="btn btn-reset" onclick="resetForm()">Reset</button>
-      </div>
-    </div>
+                <div class="buttons">
+                    <button class="btn btn-add" onclick="addCustomer()">Add</button>
+                    <button class="btn btn-update" onclick="updateCustomer()">Update</button>
+                    <button class="btn btn-delete" onclick="deleteCustomer()">Delete</button>
+                    <button class="btn btn-reset" onclick="resetForm()">Reset</button>
+                </div>
+            </div>
+        </div>
 
-    <div class="footer">MLSLSenarathna</div>
-  </div>
+        <div class="footer">
+            <button class="btn-back">Back</button>
+            <span class="user-info">MLSLSenarathna</span>
+        </div>
 
-  <script>
-    let customers = [
-      { id: 'C001', title: 'Mr', name: 'Lakshan', birthday: '2000-02-29', salary: 5000000, address: '157/B Karunasena Jayalath MW', city: 'Horana', province: 'Western', postalCode: '12400' }
-    ];
+    <script>
+        const BASE_URL = 'http://localhost:8080/api/v1/customers';
+        
+        let customers = [];
+        let selectedCustomerId = null;
 
-    function loadCustomers() {
-      const tableBody = document.querySelector('#customerTable tbody');
-      tableBody.innerHTML = '';
-      customers.forEach(c => {
-        const row = `<tr>
-          <td>${c.id}</td>
-          <td>${c.title}</td>
-          <td>${c.name}</td>
-          <td>${new Date(c.birthday).toDateString()}</td>
-          <td>${c.salary.toFixed(2)}</td>
-          <td>${c.address}</td>
-          <td>${c.city}</td>
-          <td>${c.province}</td>
-          <td>${c.postalCode}</td>
-        </tr>`;
-        tableBody.innerHTML += row;
-      });
-    }
+        async function loadCustomers() {
+            const tableBody = document.querySelector('#customerTable tbody');
+            if (!tableBody) return;
+            tableBody.innerHTML = '';
+            
+            try {
+                const response = await fetch(BASE_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                customers = await response.json();
+                
+                customers.forEach(c => {
+                    const birthdayDisplay = c.birthday ? new Date(c.birthday).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }) : '';
+                    
+                    const row = `<tr data-id="${c.id}">
+                        <td>${c.id}</td>
+                        <td>${c.title}</td>
+                        <td>${c.name}</td>
+                        <td>${birthdayDisplay}</td>
+                        <td>${c.salary.toFixed(2)}</td>
+                        <td>${c.address}</td>
+                        <td>${c.city}</td>
+                        <td>${c.province}</td>
+                        <td>${c.postalCode}</td>
+                    </tr>`;
+                    tableBody.innerHTML += row;
+                });
+                
+                resetForm(); 
 
-    function generateId() {
-      return 'C' + String(customers.length + 1).padStart(3, '0');
-    }
+            } catch (error) {
+                console.error("Error loading customers from backend:", error);
+            }
+        }
 
-    function addCustomer() {
-      const newCustomer = {
-        id: generateId(),
-        title: document.getElementById('title').value,
-        name: document.getElementById('name').value,
-        birthday: document.getElementById('birthday').value,
-        salary: parseFloat(document.getElementById('salary').value),
-        address: document.getElementById('address').value,
-        city: document.getElementById('city').value,
-        province: document.getElementById('province').value,
-        postalCode: document.getElementById('postalCode').value
-      };
-      customers.push(newCustomer);
-      loadCustomers();
-      resetForm();
-    }
+        async function addCustomer() {
+            const newCustomerData = {
+                title: document.getElementById('title').value,
+                name: document.getElementById('name').value,
+                birthday: document.getElementById('birthday').value,
+                salary: parseFloat(document.getElementById('salary').value || 0),
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value,
+                province: document.getElementById('province').value,
+                postalCode: document.getElementById('postalCode').value
+            };
+            
+            if (!newCustomerData.name || !newCustomerData.title) {
+                console.error("Name and Title are required.");
+                return;
+            }
 
-    function updateCustomer() {
-      alert('Update function can be implemented to modify selected customer');
-    }
+            try {
+                const response = await fetch(BASE_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newCustomerData)
+                });
 
-    function deleteCustomer() {
-      alert('Delete function can be implemented to remove selected customer');
-    }
+                if (!response.ok) {
+                    throw new Error(`Creation failed with status: ${response.status}`);
+                }
+                
+                await loadCustomers();
+                console.log("New customer added successfully.");
 
-    function resetForm() {
-      document.querySelectorAll('.form input, .form select').forEach(el => el.value = '');
-    }
+            } catch (error) {
+                console.error("Error adding customer:", error);
+            }
+        }
 
-    window.onload = loadCustomers;
-  </script>
+        async function updateCustomer() {
+            if (!selectedCustomerId) {
+                console.warn('Please select a customer to update.');
+                return;
+            }
+            
+            const updatedCustomerData = {
+                id: selectedCustomerId, 
+                title: document.getElementById('title').value,
+                name: document.getElementById('name').value,
+                birthday: document.getElementById('birthday').value,
+                salary: parseFloat(document.getElementById('salary').value || 0),
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value,
+                province: document.getElementById('province').value,
+                postalCode: document.getElementById('postalCode').value
+            };
+            
+            try {
+                const response = await fetch(`${BASE_URL}/${selectedCustomerId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedCustomerData)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Update failed with status: ${response.status}`);
+                }
+
+                await loadCustomers();
+                console.log(`Customer ID: ${selectedCustomerId} updated successfully.`);
+
+            } catch (error) {
+                console.error("Error updating customer:", error);
+            }
+        }
+
+        async function deleteCustomer() {
+            if (!selectedCustomerId) {
+                console.warn('Please select a customer to delete.');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${BASE_URL}/${selectedCustomerId}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Deletion failed with status: ${response.status}`);
+                }
+                
+                await loadCustomers();
+                console.log(`Customer ID: ${selectedCustomerId} deleted successfully.`);
+
+            } catch (error) {
+                console.error("Error deleting customer:", error);
+            }
+        }
+        
+        function populateForm(id) {
+            const customer = customers.find(c => c.id === id);
+            if (!customer) return;
+
+            selectedCustomerId = id;
+            highlightSelectedRow(id);
+
+            document.getElementById('customerId').value = customer.id;
+            document.getElementById('title').value = customer.title;
+            document.getElementById('name').value = customer.name;
+            document.getElementById('birthday').value = customer.birthday; 
+            document.getElementById('salary').value = customer.salary;
+            document.getElementById('address').value = customer.address;
+            document.getElementById('city').value = customer.city;
+            document.getElementById('province').value = customer.province;
+            document.getElementById('postalCode').value = customer.postalCode;
+        }
+
+        function highlightSelectedRow(id) {
+            document.querySelectorAll('#customerTable tbody tr').forEach(row => {
+                row.classList.remove('selected-row');
+            });
+            const selectedRow = document.querySelector(`#customerTable tbody tr[data-id="${id}"]`);
+            if (selectedRow) {
+                selectedRow.classList.add('selected-row');
+            }
+        }
+
+        function setupRowClickListener() {
+            const tableBody = document.querySelector('#customerTable tbody');
+            if (tableBody) {
+                tableBody.onclick = function(event) {
+                    let targetRow = event.target.closest('tr');
+                    if (targetRow && targetRow.parentElement === tableBody) {
+                        const id = targetRow.getAttribute('data-id');
+                        if (id) {
+                            populateForm(id);
+                        }
+                    }
+                };
+            }
+        }
+        
+        function resetForm() {
+            document.querySelectorAll('.form input, .form select').forEach(el => el.value = el.tagName === 'SELECT' ? '' : '');
+            
+            selectedCustomerId = null;
+            highlightSelectedRow(null); 
+            
+            document.getElementById('customerId').value = 'Auto Generated';
+        }
+        
+        window.onload = function() {
+            loadCustomers();
+            setupRowClickListener(); 
+        };
+    </script>
 </body>
 </html>
